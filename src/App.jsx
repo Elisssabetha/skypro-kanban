@@ -8,7 +8,6 @@ import MainContent from "./components/main/Main";
 
 
 function App() {
-  const [count, setCount] = useState(0);
 
   return (
     <>
@@ -25,8 +24,6 @@ function App() {
 		<MainContent />
         
       </div>
-
-      <script src="js/script.js"></script>
     </>
   );
 }
