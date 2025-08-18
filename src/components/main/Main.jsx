@@ -1,106 +1,56 @@
 import Column from "../column/Column";
+import { cardList } from "../../../cardList";
+import { useState, useEffect } from "react";
 
-const MainContent = () => {
-    return (
-        <main className="main">
-          <div className="container">
-            <div className="main__block">
-              <div className="main__content">
+const Main = () => {
+  const [loading, setLoading] = useState(true);
+  const statuses = [
+    "Без статуса",
+    "Нужно сделать",
+    "В работе",
+    "Тестирование",
+    "Готово",
+  ];
 
-				<Column
-					title="Без статуса"
-					cards = {[{
-						id: 1,
-						theme: "orange",
-						title: "Название задачи",
-						category: "Web Design",
-						date: "30.10.23"},
-					{
-						id: 2,
-						theme: "green",
-						title: "Название задачи",
-						category: "Research",
-						date: "30.10.23"},
-					{
-						id: 3,
-						theme: "orange",
-						title: "Название задачи",
-						category: "Web Design",
-						date: "30.10.23"},
-					{	
-						id: 4,
-						theme: "purple",
-						title: "Название задачи",
-						category: "Copywriting",
-						date: "30.10.23"},
-					{	
-						id: 5,
-						theme: "orange",
-						title: "Название задачи",
-						category: "Web Design",
-						date: "30.10.23"}			
-					]}
-				/>
+  useEffect(() => {
+	setTimeout(() => {
+	   setLoading(false);
+	}, 3000);
+ }, []);
 
 
+  // отображение пока загружается
+  if (loading) {
+	return (
+		<main className="main">
+			<div className="container">
+				<div className="main__block">
+					<div className="main__content loading">
+						<p>Данные загружаются...</p>
+					</div>
+				</div>
+			</div>
+		</main>
+	);
+}
 
-                <Column
-					title="Нужно сделать"
-					cards = {[{
-						id: 6,
-						theme: "green",
-						title: "Название задачи",
-						category: "Research",
-						date: "30.10.23"},]}
-				/>
-
-				<Column
-					title="В работе"
-					cards = {[{
-						id: 7,
-						theme: "green",
-						title: "Название задачи",
-						category: "Research",
-						date: "30.10.23"},
-					{
-						id: 8,
-						theme: "purple",
-						title: "Название задачи",
-						category: "Copywriting",
-						date: "30.10.23"},
-					{
-						id: 9,
-						theme: "orange",
-						title: "Название задачи",
-						category: "Web Design",
-						date: "30.10.23"}	
-					]}
-				/>
-
-                <Column
-					title="Тестирование"
-					cards = {[{
-						id: 10,
-						theme: "green",
-						title: "Название задачи",
-						category: "Research",
-						date: "30.10.23"},]}
-				/>
-
-				<Column
-					title="Готово"
-					cards = {[{
-						id: 11,
-						theme: "green",
-						title: "Название задачи",
-						category: "Research",
-						date: "30.10.23"},]}
-				/>
-              </div>
-            </div>
+  return (
+    <main className="main">
+      <div className="container">
+        <div className="main__block">
+          <div className="main__content">
+            {statuses.map((status) => (
+              <Column
+                key={status}
+                title={status}
+                cards={cardList.filter((card) => card.status === status)}
+              />
+            ))}
           </div>
-        </main>
-    );
+        </div>
+      </div>
+    </main>
+  );
 };
 
-export default MainContent
+export default Main;

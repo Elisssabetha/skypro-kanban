@@ -909,6 +909,15 @@ body {
   letter-spacing: 0.2px;
 }
 
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 24px;
+  color: #333;
+}
+
 @media screen and (max-width: 1200px) {
   .main__block {
     width: 100%;
