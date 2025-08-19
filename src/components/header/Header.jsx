@@ -1,4 +1,15 @@
+import { useState } from "react";
 const Header = () => {
+
+	// фиксируем что изначально попап не виден, а переключается через функцию setUserPopupVisible
+	const [isUserPopupVisible, setUserPopupVisible] = useState(false);
+
+	// при клике меняет значение isUserPopupVisible на противоположенное
+    const toggleUserPopup = (e) => {
+        e.preventDefault(e);
+        setUserPopupVisible(!isUserPopupVisible);
+    }
+
     return (
         <header className="header">
 			<div className="container">
@@ -11,8 +22,8 @@ const Header = () => {
 					</div>
 					<nav className="header__nav">
 						<button className="header__btn-main-new _hover01" id="btnMainNew"><a href="#popNewCard">Создать новую задачу</a></button>
-						<a href="#user-set-target" className="header__user _hover02">Ivan Ivanov</a>
-						<div className="header__pop-user-set pop-user-set" id="user-set-target">
+						<a href="#user-set-target" className="header__user _hover02" onClick={toggleUserPopup}>Ivan Ivanov</a>
+						<div className="header__pop-user-set pop-user-set" id="user-set-target" style={{ display: isUserPopupVisible ? 'block' : 'none' }}>
 							{/* <!-- <a href="">x</a> --> */}
 							<p className="pop-user-set__name">Ivan Ivanov</p>
 							<p className="pop-user-set__mail">ivan.ivanov@gmail.com</p>

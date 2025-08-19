@@ -1,10 +1,9 @@
-import { useState } from "react";
 import "./App.css";
 import Header from "./components/header/Header";
 import PopUser from "./components/popups/popUser/PopUser";
 import PopNewCard from "./components/popups/popNewCard/PopNewCard";
 import PopBrowse from "./components/popups/popBrowse/PopBrowse";
-import MainContent from "./components/main/Main";
+import Main from "./components/main/Main";
 
 
 function App() {
@@ -21,7 +20,7 @@ function App() {
         {/* pop-up end */}
 
         <Header />
-		<MainContent />
+		<Main />
         
       </div>
     </>
