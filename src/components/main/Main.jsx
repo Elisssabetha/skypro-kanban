@@ -1,8 +1,10 @@
 import Column from "../column/Column";
 import { cardList } from "../../../cardList";
 import { useState, useEffect } from "react";
+import { Container } from "../Shared.styled";
+import { Main, MainBlock, MainContent } from "./Main.styled";
 
-const Main = () => {
+const MainComponent = () => {
   const [loading, setLoading] = useState(true);
   const statuses = [
     "Без статуса",
@@ -13,32 +15,31 @@ const Main = () => {
   ];
 
   useEffect(() => {
-	setTimeout(() => {
-	   setLoading(false);
-	}, 3000);
- }, []);
-
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
 
   // отображение пока загружается
   if (loading) {
-	return (
-		<main className="main">
-			<div className="container">
-				<div className="main__block">
-					<div className="main__content loading">
-						<p>Данные загружаются...</p>
-					</div>
-				</div>
-			</div>
-		</main>
-	);
-}
+    return (
+      <Main>
+        <Container>
+          <MainBlock>
+            <MainContent className="loading">
+              <p>Данные загружаются...</p>
+            </MainContent>
+          </MainBlock>
+        </Container>
+      </Main>
+    );
+  }
 
   return (
-    <main className="main">
-      <div className="container">
-        <div className="main__block">
-          <div className="main__content">
+    <Main>
+      <Container>
+        <MainBlock>
+          <MainContent>
             {statuses.map((status) => (
               <Column
                 key={status}
@@ -46,11 +47,11 @@ const Main = () => {
                 cards={cardList.filter((card) => card.status === status)}
               />
             ))}
-          </div>
-        </div>
-      </div>
-    </main>
+          </MainContent>
+        </MainBlock>
+      </Container>
+    </Main>
   );
 };
 
-export default Main;
+export default MainComponent;

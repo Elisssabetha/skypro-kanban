@@ -3,14 +3,15 @@ import Header from "./components/header/Header";
 import PopUser from "./components/popups/popUser/PopUser";
 import PopNewCard from "./components/popups/popNewCard/PopNewCard";
 import PopBrowse from "./components/popups/popBrowse/PopBrowse";
-import Main from "./components/main/Main";
-
+import MainComponent from "./components/main/Main";
+import { GlobalStyles } from "./components/GlobalStyles.styled";
+import { Wrapper } from "./components/Shared.styled";
 
 function App() {
-
   return (
     <>
-      <div className="wrapper">
+      <GlobalStyles />
+      <Wrapper>
         {/* pop-up start */}
 
         <PopUser />
@@ -20,9 +21,8 @@ function App() {
         {/* pop-up end */}
 
         <Header />
-		<Main />
-        
-      </div>
+        <MainComponent />
+      </Wrapper>
     </>
   );
 }
