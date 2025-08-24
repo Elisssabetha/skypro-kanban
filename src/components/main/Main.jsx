@@ -1,11 +1,10 @@
 import Column from "../column/Column";
 import { cardList } from "../../../cardList";
-import { useState, useEffect } from "react";
 import { Container } from "../Shared.styled";
 import { Main, MainBlock, MainContent } from "./Main.styled";
 
-const MainComponent = () => {
-  const [loading, setLoading] = useState(true);
+const MainComponent = ({loading}) => {
+
   const statuses = [
     "Без статуса",
     "Нужно сделать",
@@ -14,11 +13,6 @@ const MainComponent = () => {
     "Готово",
   ];
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
 
   // отображение пока загружается
   if (loading) {

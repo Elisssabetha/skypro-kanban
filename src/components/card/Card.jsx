@@ -1,20 +1,21 @@
 import * as S from "./Card.styled";
+import { Link } from "react-router-dom";
 
-const Card = ({ theme, title, category, date }) => {
+const Card = ({ id, theme, title, category, date }) => {
   return (
     <S.CardsItem>
       <S.Card>
         <S.CardGroup>
-        <S.CardTheme $themeType={theme}>
+          <S.CardTheme $themeType={theme}>
             <p>{category}</p>
-         </S.CardTheme>
-          <a href="#popBrowse" target="_self">
+          </S.CardTheme>
+          <Link to={`/card/${id}`}>
             <S.CardButton>
               <div></div>
               <div></div>
               <div></div>
             </S.CardButton>
-          </a>
+          </Link>
         </S.CardGroup>
         <S.CardContent>
           <a href="" target="_blank">
