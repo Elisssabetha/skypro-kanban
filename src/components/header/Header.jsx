@@ -1,11 +1,10 @@
 import { useState } from "react";
 import * as S from "./Header.styled";
 import { Container } from "../Shared.styled";
+import { Link } from "react-router-dom";
 const Header = () => {
-  // фиксируем что изначально попап не виден, а переключается через функцию setUserPopupVisible
-  const [isUserPopupVisible, setUserPopupVisible] = useState(false);
 
-  // при клике меняет значение isUserPopupVisible на противоположенное
+  const [isUserPopupVisible, setUserPopupVisible] = useState(false);
   const toggleUserPopup = (e) => {
     e.preventDefault(e);
     setUserPopupVisible(!isUserPopupVisible);
@@ -27,13 +26,12 @@ const Header = () => {
           </S.HeaderLogo>
           <S.HeaderNav>
             <S.HeaderBtnMainNew id="btnMainNew">
-              <a href="#popNewCard">Создать новую задачу</a>
+              <Link to="/new-card">Создать новую задачу</Link>
             </S.HeaderBtnMainNew>
             <S.HeaderUser href="#user-set-target" onClick={toggleUserPopup}>
               Ivan Ivanov
             </S.HeaderUser>
             <S.PopUserSet id="user-set-target" $isVisible={isUserPopupVisible}>
-              {/* <!-- <a href="">x</a> --> */}
               <S.PopUserName>Ivan Ivanov</S.PopUserName>
               <S.PopUserMail>ivan.ivanov@gmail.com</S.PopUserMail>
               <S.PopUserTheme>
@@ -41,7 +39,7 @@ const Header = () => {
                 <input type="checkbox" className="checkbox" name="checkbox" />
               </S.PopUserTheme>
               <S.PopUserButton>
-                <a href="#popExit">Выйти</a>
+                <Link to="/exit">Выйти</Link>
               </S.PopUserButton>
             </S.PopUserSet>
           </S.HeaderNav>

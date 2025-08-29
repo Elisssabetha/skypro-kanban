@@ -11,6 +11,7 @@ const Column = ({ title, cards}) => { //cards - список
         {cards.map((card) => (
           <Card
             key={card.id}
+            id={card.id}
             theme={card.theme}
             title={card.title}
             category={card.category}
