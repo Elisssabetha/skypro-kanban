@@ -3,17 +3,21 @@ import axios from 'axios'
 const API_URL = 'https://wedev-api.sky.pro/api/kanban'
 
 // получение задач
-export async function fetchTasks({ token }) {
+export async function fetchTasks({token}) {
    try {
       const response = await axios.get(`${API_URL}/tasks`, {
          headers: {
-            Authorization: 'Bearer ' + token,
+            Authorization: `Bearer ${token}`,
          },
       })
       return response.data
-      // когда работаем с axios, не забываем, что результат лежит в ключе datа
    } catch (error) {
-      throw new Error(error.response?.data?.error || 'Ошибка при получении задач');
+      const errorMessage = error.response?.data?.message || 
+                          error.response?.data?.error ||
+                          error.message ||
+                          'Ошибка при получении задач';
+      console.error("Детали ошибки от сервера:", error.response?.data);
+      throw new Error(errorMessage);
    }
 }
 

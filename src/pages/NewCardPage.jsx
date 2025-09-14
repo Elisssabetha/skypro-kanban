@@ -4,12 +4,12 @@ import { GlobalStyles } from "../components/GlobalStyles.styled";
 import PopNewCardComponent from "../components/popups/popNewCard/PopNewCard";
 import MainComponent from "../components/main/Main";
 
-const NewCardPage = () => {
+const NewCardPage = ({user}) => {
   return (
     <>
       <GlobalStyles />
       <Wrapper>
-        <Header />
+        <Header user={user}/>
         <MainComponent />
         <PopNewCardComponent />
       </Wrapper>

@@ -5,13 +5,13 @@ import { GlobalStyles } from "../components/GlobalStyles.styled";
 import { useParams } from "react-router-dom";
 import PopBrowseСomponent from "../components/popups/popBrowse/PopBrowse";
 
-const CardPage = () => {
+const CardPage = ({ user }) => {
     const { id } = useParams();
   return (
     <>
     <GlobalStyles />
     <Wrapper>
-      <Header />
+      <Header user={user}/>
       <MainComponent />
       <PopBrowseСomponent id={id} />
     </Wrapper>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import * as S from "./Header.styled";
 import { Container } from "../Shared.styled";
 import { Link } from "react-router-dom";
-const Header = () => {
+const Header = ({ user }) => {
 
   const [isUserPopupVisible, setUserPopupVisible] = useState(false);
   const toggleUserPopup = (e) => {
@@ -15,25 +15,25 @@ const Header = () => {
       <Container>
         <S.HeaderBlock>
           <S.HeaderLogo className="light">
-            <a href="" target="_self">
+          <Link to="/" target="_self">
               <img src="images/logo.png" alt="logo" />
-            </a>
+          </Link>
           </S.HeaderLogo>
           <S.HeaderLogo className="dark">
-            <a href="" target="_self">
+          <Link to="/" target="_self">
               <img src="images/logo_dark.png" alt="logo" />
-            </a>
+          </Link>
           </S.HeaderLogo>
           <S.HeaderNav>
             <S.HeaderBtnMainNew id="btnMainNew">
               <Link to="/new-card">Создать новую задачу</Link>
             </S.HeaderBtnMainNew>
             <S.HeaderUser href="#user-set-target" onClick={toggleUserPopup}>
-              Ivan Ivanov
+            {user?.name || "Ivan Ivanov"}
             </S.HeaderUser>
             <S.PopUserSet id="user-set-target" $isVisible={isUserPopupVisible}>
-              <S.PopUserName>Ivan Ivanov</S.PopUserName>
-              <S.PopUserMail>ivan.ivanov@gmail.com</S.PopUserMail>
+              <S.PopUserName>{user?.name || "NoName"}</S.PopUserName>
+              <S.PopUserMail>{user?.login || "noname@gmail.com"}</S.PopUserMail>
               <S.PopUserTheme>
                 <p>Темная тема</p>
                 <input type="checkbox" className="checkbox" name="checkbox" />

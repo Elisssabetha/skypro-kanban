@@ -46,16 +46,10 @@ const SignUp = () => {
     });
     if (errors[name]) {
       const newErrors = { ...errors };
-      delete newErrors[name]; // УДАЛЯЕМ ошибку для этого поля
+      delete newErrors[name];
       setErrors(newErrors);
     }
-    
-    // if (errors[name]) {
-    //   setErrors({
-    //     ...errors,
-    //     [name]: ""
-    //   });
-    // }
+  
     
     setServerError("");
   };

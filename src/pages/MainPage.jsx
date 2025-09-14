@@ -3,12 +3,12 @@ import MainComponent from "../components/main/Main";
 import { GlobalStyles } from "../components/GlobalStyles.styled";
 import { Wrapper } from "../components/Shared.styled";
 
-const MainPage = ( {loading} ) => {
+const MainPage = ( {loading, user} ) => {
   return (
     <>
       <GlobalStyles />
       <Wrapper>
-        <Header />
+        <Header user={user}/>
         <MainComponent loading={loading}/>
       </Wrapper>
     </>

@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../../services/auth";
 import { validateUserData } from "../../../services/utils/authUtils";
 
-  const SignIn = ({setIsAuth}) => {
+  const SignIn = ({setIsAuth, setUser}) => {
     const navigate = useNavigate();
 
     // состояние данных формы 
@@ -63,10 +63,15 @@ import { validateUserData } from "../../../services/utils/authUtils";
         // вход через апи
         const authData = await login(formData);
         console.log('Успешный вход:', authData);
-        
+        console.log('Данные пользователя:', authData);
 
-        setIsAuth(true); 
+        localStorage.setItem('authToken', authData.user.token);
+        setUser(authData.user);
+        //сохраняем авторизацию
+        localStorage.setItem('user', JSON.stringify(authData.user));
+        localStorage.setItem('isAuth', 'true');
         
+        setIsAuth(true); 
         navigate("/"); // Переходим на главную страницу
         
       } catch (error) {
