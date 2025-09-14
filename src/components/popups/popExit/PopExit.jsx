@@ -7,13 +7,13 @@ import {
   PopExitTtl,
 } from "./PopExit.styled";
 import { useNavigate } from "react-router-dom";
+import { logout } from "../../../services/auth.js"
 
 const PopExitComponent = ({ setIsAuth }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    setIsAuth(false);
-    localStorage.removeItem("isAuth");
+    logout(setIsAuth)
     navigate("/login");
   };
 

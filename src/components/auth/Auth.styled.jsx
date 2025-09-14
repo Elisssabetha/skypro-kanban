@@ -73,22 +73,14 @@ export const ModalForm = styled.form`
   }
 `;
 
-export const ModalInput = styled.input`
+const StyledInput = styled.input`
   width: 100%;
   min-width: 100%;
   border-radius: 8px;
   border: 0.7px solid rgba(148, 166, 190, 0.4);
   outline: none;
   padding: 10px 8px;
-
-  &::-moz-placeholder {
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 21px;
-    letter-spacing: -0.28px;
-    color: #94a6be;
-  }
+  border-color: ${props => props.$error ? '#F84D4D' : 'rgba(148, 166, 190, 0.4)'};
 
   &::placeholder {
     font-family: "Roboto", sans-serif;
@@ -98,7 +90,66 @@ export const ModalInput = styled.input`
     letter-spacing: -0.28px;
     color: #94a6be;
   }
+
+  &:focus {
+    border-color: #565eef;
+  }
 `;
+
+const BaseInput = ({
+   id,
+   name,
+   placeholder = "",
+   type = "text",
+   error = false,
+   onChange,
+   value
+}) => {
+   return (
+      <StyledInput
+         id={id}
+         name={name}
+         type={type}
+         placeholder={placeholder}
+         $error={error}
+         onChange={onChange}
+         value={value}
+      />
+   );
+};
+
+export const ModalInput = BaseInput
+
+// export const ModalInput = styled.input`
+//   width: 100%;
+//   min-width: 100%;
+//   border-radius: 8px;
+//   border: 0.7px solid rgba(148, 166, 190, 0.4);
+//   outline: none;
+//   padding: 10px 8px;
+
+//   &::-moz-placeholder {
+//     font-family: "Roboto", sans-serif;
+//     font-weight: 400;
+//     font-size: 14px;
+//     line-height: 21px;
+//     letter-spacing: -0.28px;
+//     color: #94a6be;
+//   }
+
+//   &::placeholder {
+//     font-family: "Roboto", sans-serif;
+//     font-weight: 400;
+//     font-size: 14px;
+//     line-height: 21px;
+//     letter-spacing: -0.28px;
+//     color: #94a6be;
+//   }
+
+//   &.error {
+//     border: 0.7px solid #F84D4D !important;
+//   }
+// `;
 
 export const ModalButton = styled.button`
   width: 100%;
@@ -122,6 +173,12 @@ export const ModalButton = styled.button`
   &:hover {
     background-color: #33399b;
   }
+
+  &:disabled {
+    background: #94A6BE !important;
+    cursor: not-allowed;
+  }
+
 
   a {
     width: 100%;
@@ -157,3 +214,14 @@ export const ModalFormGroup = styled.div`
     }
   }
 `;
+
+export const ErrorMessage = styled.div`
+  color: #e74c3c;
+  font-size: 12px;
+  text-align: center;
+  /* margin-top: 5px;
+  margin-bottom: 10px; */
+
+`;
+
+

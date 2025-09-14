@@ -1,14 +1,86 @@
+import { useState } from "react";
 import { GlobalStyles } from "../../GlobalStyles.styled";
-import { ContainerSign, Modal, ModalBlock, ModalInput, ModalForm,ModalFormGroup, ModalTtl, WrapperSign, ModalButton } from "../Auth.styled"
+import { ContainerSign, Modal, ModalBlock, ModalInput, ModalForm,ModalFormGroup, ModalTtl, WrapperSign, ModalButton, ErrorMessage } from "../Auth.styled"
 import { Link, useNavigate } from "react-router-dom";
+import { login } from "../../../services/auth";
+import { validateUserData } from "../../../services/utils/authUtils";
 
   const SignIn = ({setIsAuth}) => {
     const navigate = useNavigate();
-    const handleLogin = (e) => {
-        e.preventDefault();
-        setIsAuth(true);
-        navigate("/");
+
+    // состояние данных формы 
+    const [formData, setFormData] = useState({
+      login: "",
+      password: ""
+    });
+
+    //состояние ошибок валидации
+    const [errors, setErrors] = useState({});
+
+    //состояние загрузки
+    const [loading, setLoading] = useState(false);
+
+    // состояниеошибок с сервера
+    const [serverError, setServerError] = useState("");
+
+    // обработка изменений в поле ввода
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+  
+      setFormData({
+        ...formData,
+        [name]: value
+      });
+      
+      // Очищаем ошибку для конкретного поля
+      if (errors[name]) {
+        setErrors({
+          ...errors,
+          [name]: ""
+        });
+      }
+      
+      setServerError("");
+    };
+
+
+    const handleLogin = async (e) => {
+      e.preventDefault();
+      setLoading(true);
+      setServerError("");
+
+      // валидация перед отправкой
+      const validationErrors = validateUserData(formData, false);
+
+      //если есть ошибки
+      if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors);
+        setLoading(false);
+        return;
+      }
+
+      try {
+        // вход через апи
+        const authData = await login(formData);
+        console.log('Успешный вход:', authData);
+        
+
+        setIsAuth(true); 
+        
+        navigate("/"); // Переходим на главную страницу
+        
+      } catch (error) {
+        setErrors({
+          login: " ",
+          password: " "
+        });
+        setServerError(error.message);
+      } finally {
+        setLoading(false);
+      }
      };
+
+
     return (
       <>
       <GlobalStyles/>
@@ -24,16 +96,27 @@ import { Link, useNavigate } from "react-router-dom";
                   type="text" 
                   name="login" 
                   id="formlogin" 
-                  placeholder="Эл. почта" 
+                  placeholder="Эл. почта"
+                  value={formData.login}
+                  onChange={handleChange}
+                  error={errors.login || serverError}
                 />
                 <ModalInput 
                   type="password" 
                   name="password" 
                   id="formpassword" 
-                  placeholder="Пароль" 
+                  placeholder="Пароль"
+                  value={formData.password}
+                  onChange={handleChange}
+                  error={errors.password || serverError}
                 />
-                <ModalButton onClick={handleLogin}>
-                  Войти
+
+                {errors.login && errors.login.trim() && <ErrorMessage>{errors.login}</ErrorMessage>}
+                {errors.password && !formData.password && <ErrorMessage>Заполните пароль</ErrorMessage>}
+
+                {serverError && <ErrorMessage> {serverError}</ErrorMessage>}
+                <ModalButton onClick={handleLogin} disabled={loading || serverError }>
+                {loading ? "Загрузка..." : "Войти"}
                 </ModalButton>
                 <ModalFormGroup>
                   <p>Нужно зарегистрироваться?</p>
