@@ -1,13 +1,13 @@
 import axios from 'axios'
 
 const API_URL = 'https://wedev-api.sky.pro/api/kanban'
-
 // получение задач
 export async function fetchTasks({token}) {
    try {
-      const response = await axios.get(`${API_URL}/tasks`, {
+      const response = await axios.get(`${API_URL}`, {
          headers: {
             Authorization: `Bearer ${token}`,
+            'Content-Type': '',
          },
       })
       return response.data
@@ -24,7 +24,7 @@ export async function fetchTasks({token}) {
 // получение одной по ИД
 export async function fetchTask({ token, taskId }) {
    try {
-      const response = await axios.get(`${API_URL}/tasks/${taskId}`, {
+      const response = await axios.get(`${API_URL}/${taskId}`, {
          headers: {
             Authorization: 'Bearer ' + token,
          },
@@ -38,7 +38,7 @@ export async function fetchTask({ token, taskId }) {
 // создание задачи
 export async function createTask({ token, taskData }) {
    try {
-       const response = await axios.post(`${API_URL}/tasks`, taskData, {
+       const response = await axios.post(`${API_URL}`, taskData, {
            headers: {
                Authorization: `Bearer ${token}`,
                'Content-Type': '',
@@ -53,7 +53,7 @@ export async function createTask({ token, taskData }) {
 // обновление
 export async function updateTask({ token, taskId, taskData }) {
    try {
-       const response = await axios.put(`${API_URL}/tasks/${taskId}`, taskData, {
+       const response = await axios.put(`${API_URL}/${taskId}`, taskData, {
            headers: {
                Authorization: `Bearer ${token}`,
                'Content-Type': '',
@@ -68,7 +68,7 @@ export async function updateTask({ token, taskId, taskData }) {
 // удаление
 export async function deleteTask({ token, taskId }) {
    try {
-       const response = await axios.delete(`${API_URL}/tasks/${taskId}`, {
+       const response = await axios.delete(`${API_URL}/${taskId}`, {
            headers: {
                Authorization: `Bearer ${token}`,
            },

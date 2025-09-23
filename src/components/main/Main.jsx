@@ -26,30 +26,16 @@ const MainComponent = ({loading}) => {
     try {
       setIsLoading(true);
       const token = localStorage.getItem("authToken");
-      // const token = "gbodkas74c4asboc054cod06g5g5k5o5s6g8gbodkas";
-      // console.log("Токен из localStorage:", token);
-      // console.log("Длина токена:", token?.length);
-      //  console.log("Тип токена:", typeof token);
 
-    // const manualToken = "asb4c4boc86gasb4c4boc86g37w3cc3bo3b83k4g37k3bk3cg3c03ck4k";
-    // console.log("Токен из Postman:", manualToken);
-    // console.log("Длины совпадают:", token?.length === manualToken.length);
-    // const tokenToUse = manualToken;
-
-
-      console.log("Токен из localStorage:", token);
       if (!token) {
         throw new Error("Токен не найден");
       }
       
       const responseData = await fetchTasks({ token });
-      console.log("Ответ от сервера:", responseData);
       setTasks(responseData.tasks);
     } catch (err) {
       setError(err.message);
-      // console.error("Ошибка загрузки задач:", err);
-      console.error("Полная ошибка загрузки задач:", err);
-      console.error("Детали ошибки:", err.response?.data); 
+      
     } finally {
       setIsLoading(false);
     }
@@ -73,6 +59,7 @@ const MainComponent = ({loading}) => {
 
    // Отображение ошибки
    if (error) {
+    console.log(error.message)
     return (
       <Main>
         <Container>

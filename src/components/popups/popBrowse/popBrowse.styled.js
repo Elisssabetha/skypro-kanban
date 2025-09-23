@@ -158,7 +158,7 @@ export const StatusTheme = styled.div`
   border-radius: 24px;
   border: 0.7px solid rgba(148, 166, 190, 0.4);
   padding: 11px 14px 10px;
-  cursor: pointer;
+  cursor: ${props => props.$clickable ? 'pointer' : 'default'};
   transition: all 0.2s ease;
 
   ${(props) =>
@@ -210,8 +210,8 @@ export const PopBrowseTextArea = styled.textarea`
   width: 100%;
   outline: none;
   padding: 14px;
-  background: #eaeef6;
-  border: 0.7px solid rgba(148, 166, 190, 0.4);
+  background: ${props => props.$editable ? '#ffffff' : '#eaeef6'};
+  border: 0.7px solid ${props => props.$editable ? 'rgba(148, 166, 190, 0.4)' : 'transparent'};
   border-radius: 8px;
   font-size: 14px;
   line-height: 1;
