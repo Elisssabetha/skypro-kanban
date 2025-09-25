@@ -43,7 +43,7 @@ const MainComponent = ({loading}) => {
 
 
   // отображение пока загружается
-  if (loading || isLoading) {
+  if (loading) {
     return (
       <Main>
         <Container>
