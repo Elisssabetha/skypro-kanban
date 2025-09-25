@@ -155,17 +155,18 @@ export const PopBrowseСomponent = () => {
   };
 
   if (loading) {
-    return (
-      <PopBrowse>
-        <PopBrowseContainer>
-          <PopBrowseBlock>
-            <PopBrowseContent>
-              <p>Загрузка карточки...</p>
-            </PopBrowseContent>
-          </PopBrowseBlock>
-        </PopBrowseContainer>
-      </PopBrowse>
-    );
+    return null;
+    // return (
+    //   <PopBrowse>
+    //     <PopBrowseContainer>
+    //       <PopBrowseBlock>
+    //         <PopBrowseContent>
+    //           <p>Загрузка карточки...</p>
+    //         </PopBrowseContent>
+    //       </PopBrowseBlock>
+    //     </PopBrowseContainer>
+    //   </PopBrowse>
+    // );
   }
 
   if (error || !card) {
