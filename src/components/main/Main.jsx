@@ -1,14 +1,12 @@
-import { useState, useEffect } from "react";
+import { useContext } from "react";
 import Column from "../column/Column";
-// import { cardList } from "../../../cardList";
 import { Container } from "../Shared.styled";
 import { Main, MainBlock, MainContent } from "./Main.styled";
-import { fetchTasks } from "../../services/api";
+import { TasksContext } from "../../context/TasksContext";
 
-const MainComponent = ({loading}) => {
-  const [tasks, setTasks] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
+const MainComponent = ({ loading }) => {
+
+  const { tasks, error, loadTasks } = useContext(TasksContext);
 
   const statuses = [
     "Без статуса",
@@ -17,30 +15,6 @@ const MainComponent = ({loading}) => {
     "Тестирование",
     "Готово",
   ];
-
-  useEffect(() => {
-    loadTasks();
-  }, []);
-
-  const loadTasks = async () => {
-    try {
-      setIsLoading(true);
-      const token = localStorage.getItem("authToken");
-
-      if (!token) {
-        throw new Error("Токен не найден");
-      }
-      
-      const responseData = await fetchTasks({ token });
-      setTasks(responseData.tasks);
-    } catch (err) {
-      setError(err.message);
-      
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
 
   // отображение пока загружается
   if (loading) {
@@ -57,9 +31,9 @@ const MainComponent = ({loading}) => {
     );
   }
 
-   // Отображение ошибки
-   if (error) {
-    console.log(error.message)
+  // Отображение ошибки
+  if (error) {
+    console.log(error.message);
     return (
       <Main>
         <Container>
@@ -83,7 +57,7 @@ const MainComponent = ({loading}) => {
               <Column
                 key={status}
                 title={status}
-                cards={tasks.filter((tasks) => tasks.status === status)}
+                cards={tasks.filter((task) => task.status === status)}
               />
             ))}
           </MainContent>

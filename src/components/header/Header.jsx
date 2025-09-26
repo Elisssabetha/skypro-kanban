@@ -16,12 +16,12 @@ const Header = ({ user }) => {
         <S.HeaderBlock>
           <S.HeaderLogo className="light">
           <Link to="/" target="_self">
-              <img src="images/logo.png" alt="logo" />
+              <img src="../../../public/images/logo.png" alt="logo" />
           </Link>
           </S.HeaderLogo>
           <S.HeaderLogo className="dark">
           <Link to="/" target="_self">
-              <img src="images/logo_dark.png" alt="logo" />
+              <img src="../../../public/images/logo.png" alt="logo" />
           </Link>
           </S.HeaderLogo>
           <S.HeaderNav>

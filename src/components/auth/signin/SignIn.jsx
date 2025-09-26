@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { GlobalStyles } from "../../GlobalStyles.styled";
 import { ContainerSign, Modal, ModalBlock, ModalInput, ModalForm,ModalFormGroup, ModalTtl, WrapperSign, ModalButton, ErrorMessage } from "../Auth.styled"
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../../services/auth";
 import { validateUserData } from "../../../services/utils/authUtils";
+import { TasksContext } from "../../../context/TasksContext";
 
   const SignIn = ({setIsAuth, setUser}) => {
     const navigate = useNavigate();
+    const { refreshTasks } = useContext(TasksContext);
 
     // состояние данных формы 
     const [formData, setFormData] = useState({
@@ -63,14 +65,18 @@ import { validateUserData } from "../../../services/utils/authUtils";
         // вход через апи
         const authData = await login(formData);
         console.log('Успешный вход:', authData);
-        console.log('Данные пользователя:', authData);
+
 
         localStorage.setItem('authToken', authData.user.token);
-        setUser(authData.user);
-        //сохраняем авторизацию
         localStorage.setItem('user', JSON.stringify(authData.user));
         localStorage.setItem('isAuth', 'true');
-        
+
+        await new Promise(resolve => setTimeout(resolve, 50));
+        if (refreshTasks) {
+          await refreshTasks();
+        }
+
+        setUser(authData.user);
         setIsAuth(true); 
         navigate("/"); // Переходим на главную страницу
         

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Calendar from "../../calendar/Calendar";
 import {
   PopNewCard,
@@ -20,6 +20,7 @@ import {
 } from "./PopNewCard.styled";
 import { useNavigate } from "react-router-dom";
 import { createTask } from "../../../services/api";
+import { TasksContext } from "../../../context/TasksContext";
 
 const PopNewCardComponent = () => {
   const navigate = useNavigate();
@@ -60,6 +61,8 @@ const PopNewCardComponent = () => {
     setSelectedDate(date);
   };
 
+  const { addTask, refreshTasks } = useContext(TasksContext);
+
   //сохранение карточки
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,15 +89,34 @@ const PopNewCardComponent = () => {
         throw new Error("Токен не найден");
       }
 
+      //преобразование даты
+      let isoDate = "";
+      if (selectedDate) {
+        const [day, month, year] = selectedDate.split(".").map(Number);
+        const dateObj = new Date(year, month - 1, day);
+        if (isNaN(dateObj.getTime())) {
+          throw new Error("Некорректная дата");
+        }
+        isoDate = dateObj.toISOString();
+      }
+
       const taskData = {
         title: formData.title.trim(),
         description: formData.description.trim(),
         topic: formData.topic,
         status: formData.status,
-        date: selectedDate || "",
+        date: isoDate,
       };
 
-      await createTask({ token, taskData });
+      const response = await createTask({ token, taskData });
+      //последняя задача в списке
+      const newTask = response.tasks[response.tasks.length - 1];
+
+      if (newTask) {
+        addTask(newTask);
+      } else {
+        refreshTasks();
+      }
 
       navigate("/");
     } catch (err) {
@@ -157,16 +179,18 @@ const PopNewCardComponent = () => {
               />
             </PopNewCardWrap>
 
-			{error && (
-            <div style={{ 
-              color: "#e74c3c", 
-              textAlign: "center", 
-              margin: "10px 0",
-              fontSize: "14px"
-            }}>
-              {error}
-            </div>
-          )}
+            {error && (
+              <div
+                style={{
+                  color: "#e74c3c",
+                  textAlign: "center",
+                  margin: "10px 0",
+                  fontSize: "14px",
+                }}
+              >
+                {error}
+              </div>
+            )}
 
             <Categories>
               <CategoriesP>Категория</CategoriesP>
@@ -186,7 +210,7 @@ const PopNewCardComponent = () => {
             <FormNewCreate
               type="submit"
               form="formNewCard"
-              disabled={loading || !formData.topic} 
+              disabled={loading || !formData.topic}
             >
               {loading ? "Создание..." : "Создать задачу"}
             </FormNewCreate>

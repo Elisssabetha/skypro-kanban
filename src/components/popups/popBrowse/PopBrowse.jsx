@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Calendar from "../../calendar/Calendar";
-// import { cardList } from "../../../../cardList";
 import {
   PopBrowse,
   PopBrowseBlock,
@@ -24,6 +23,7 @@ import {
 } from "./popBrowse.styled";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchTask, deleteTask, updateTask } from "../../../services/api";
+import { TasksContext } from "../../../context/TasksContext";
 
 export const PopBrowseСomponent = () => {
   const navigate = useNavigate();
@@ -34,6 +34,9 @@ export const PopBrowseСomponent = () => {
   const [isEditing, setIsEditing] = useState(false); // режим редактирования
   const [saving, setSaving] = useState(false); //сохранение изменений
   const [selectedDate, setSelectedDate] = useState(""); //выбранная дата
+
+  const { updateTask: updateTaskInContext, removeTask, refreshTasks } =
+    useContext(TasksContext);
 
   const categoryToTheme = {
     "Web Design": "orange",
@@ -87,6 +90,7 @@ export const PopBrowseСomponent = () => {
       setSelectedDate(newDate);
     }
   };
+
   //редактирование
   const handleSave = async () => {
     try {
@@ -107,7 +111,16 @@ export const PopBrowseСomponent = () => {
         date: isoDate,
       };
 
-      await updateTask({ token, taskId: id, taskData });
+
+      const response = await updateTask({ token, taskId: id, taskData });
+      const updatedTask = response.tasks.find(task => task._id === id);
+
+      if (updatedTask) {
+        updateTaskInContext(updatedTask);
+      } else {
+        // если не нашли - обновляем весь список
+        refreshTasks();
+      }
 
       setIsEditing(false);
       navigate(-1);
@@ -115,7 +128,7 @@ export const PopBrowseСomponent = () => {
       console.error("Ошибка сохранения:", err);
       alert("Не удалось сохранить изменения");
     } finally {
-      setSaving(false); // Выключаем состояние сохранения
+      setSaving(false); // выключпаем состояние сохранения
     }
   };
 
@@ -125,6 +138,7 @@ export const PopBrowseСomponent = () => {
       try {
         const token = localStorage.getItem("authToken");
         await deleteTask({ token, taskId: id });
+        removeTask(id);
         navigate("/"); //на главную после удаления
       } catch (err) {
         console.error("Ошибка удаления задачи:", err);
@@ -276,7 +290,6 @@ export const PopBrowseСomponent = () => {
                     : "Редактировать задачу"}
                 </PopBrowseButton>
 
-                {/* В режиме редактирования - кнопка Отменить */}
                 {isEditing && (
                   <PopBrowseButton
                     $variant="bor"
