@@ -52,10 +52,10 @@ export async function login(userData) {
 }
 
 // выход
-export function logout(setIsAuth) {
-  storage.clearAuthData();
-  localStorage.removeItem("isAuth");
-  localStorage.removeItem("authToken");
-  localStorage.removeItem("user");
-  setIsAuth(false);
-}
+// export function logout(setIsAuth) {
+//   storage.clearAuthData();
+//   localStorage.removeItem("isAuth");
+//   localStorage.removeItem("authToken");
+//   localStorage.removeItem("user");
+//   setIsAuth(false);
+// }

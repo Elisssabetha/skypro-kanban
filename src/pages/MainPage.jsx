@@ -4,12 +4,12 @@ import { GlobalStyles } from "../components/GlobalStyles.styled";
 import { Wrapper } from "../components/Shared.styled"
 import { Outlet } from "react-router-dom";
 
-const MainPage = ( {user} ) => {
+const MainPage = () => {
   return (
     <>
       <GlobalStyles />
       <Wrapper>
-        <Header user={user} />
+        <Header />
         <MainComponent />
         <Outlet /> 
       </Wrapper>
