@@ -1,44 +1,44 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useContext } from "react";
 import { TasksContext } from "./TasksContext";
 import { fetchTasks } from "../services/api";
+import { AuthContext } from "./AuthContext";
 
 export const TasksProvider = ({ children }) => {
   const [tasks, setTasks] = useState([]); //список задач
   const [isLoading, setIsLoading] = useState(false); //загружаются ли
   const [error, setError] = useState(null); // ошибки
-  const [tasksLoaded, setTasksLoaded] = useState(false); //первая загрузка
-
+  const { user } = useContext(AuthContext);
 
   const loadTasks = useCallback(
-    async (forceRefresh = false) => {
-
-      if (tasksLoaded && !forceRefresh) return;
+    async () => {
+      if (!user || !user.token) {
+        setTasks([]);
+        return;
+      }
 
       try {
         setIsLoading(true);
         setError(null);
-        const token = localStorage.getItem("authToken");
-
-        if (!token) {
-          throw new Error("Токен не найден");
-        }
-
-        const responseData = await fetchTasks({ token });
+        const responseData = await fetchTasks({ token: user.token });
         setTasks(responseData.tasks);
-        setTasksLoaded(true);
       } catch (err) {
         setError(err.message);
-        setTasksLoaded(false);
+        setTasks([]);
       } finally {
         setIsLoading(false);
       }
     },
-    [tasksLoaded]
+    [user]
   );
 
   useEffect(() => {
-    loadTasks();
-  }, [loadTasks]);
+
+    if (user && user.token) {
+      loadTasks(true); // принудительно загружаем для нового пользователя
+    } else {
+      setTasks([]); // очищаем задачи если пользователь вышел
+    }
+  }, [user?._id, loadTasks, user]);
 
   const updateTask = useCallback((updatedTask) => {
     setTasks((prev) =>
@@ -58,7 +58,6 @@ export const TasksProvider = ({ children }) => {
     tasks,
     isLoading,
     error,
-    tasksLoaded,
     loadTasks,
     updateTask,
     addTask,
