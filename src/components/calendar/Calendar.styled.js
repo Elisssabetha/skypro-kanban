@@ -146,7 +146,7 @@ export const CalendarCell = styled.div`
   font-size: 10px;
   line-height: 1;
   letter-spacing: -0.2px;
-  cursor: pointer;
+  cursor: ${props => props.$editable ? 'pointer' : 'default'};
 
   &._other-month {
     opacity: 0;
@@ -156,18 +156,27 @@ export const CalendarCell = styled.div`
     color: #000;
 
     &:hover {
-      color: #94a6be;
-      background-color: #eaeef6;
+      color: ${props => props.$editable ? '#94a6be' : '#000'};
+      background-color: ${props => props.$editable ? '#eaeef6' : 'transparent'};
     }
 
-    &._weekend {
+    /* &._weekend {
       color: #ff6d00;
+    } */
+
+    &._selected {
+      font-weight: 700;
+      background-color: #94a6be;
+      color: #ffffff;
+
+      &:hover {
+        background-color: #565eef;
+        color: #ffffff;
+      }
     }
 
     &._current {
       font-weight: 700;
-      background-color: #94a6be;
-      color: #ffffff;
 
       &:hover {
         background-color: #565eef;

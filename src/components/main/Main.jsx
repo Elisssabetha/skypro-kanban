@@ -1,9 +1,12 @@
+import { useContext } from "react";
 import Column from "../column/Column";
-import { cardList } from "../../../cardList";
 import { Container } from "../Shared.styled";
 import { Main, MainBlock, MainContent } from "./Main.styled";
+import { TasksContext } from "../../context/TasksContext";
 
-const MainComponent = ({loading}) => {
+const MainComponent = ({ loading }) => {
+
+  const { tasks, error, loadTasks } = useContext(TasksContext);
 
   const statuses = [
     "Без статуса",
@@ -12,7 +15,6 @@ const MainComponent = ({loading}) => {
     "Тестирование",
     "Готово",
   ];
-
 
   // отображение пока загружается
   if (loading) {
@@ -29,6 +31,23 @@ const MainComponent = ({loading}) => {
     );
   }
 
+  // Отображение ошибки
+  if (error) {
+    console.log(error.message);
+    return (
+      <Main>
+        <Container>
+          <MainBlock>
+            <MainContent className="error">
+              <p>Ошибка: {error}</p>
+              <button onClick={loadTasks}>Попробовать снова</button>
+            </MainContent>
+          </MainBlock>
+        </Container>
+      </Main>
+    );
+  }
+
   return (
     <Main>
       <Container>
@@ -38,7 +57,7 @@ const MainComponent = ({loading}) => {
               <Column
                 key={status}
                 title={status}
-                cards={cardList.filter((card) => card.status === status)}
+                cards={tasks.filter((task) => task.status === status)}
               />
             ))}
           </MainContent>

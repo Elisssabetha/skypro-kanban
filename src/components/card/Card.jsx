@@ -1,13 +1,13 @@
 import * as S from "./Card.styled";
 import { Link } from "react-router-dom";
 
-const Card = ({ id, theme, title, category, date }) => {
+const Card = ({ id, theme, title, topic, date }) => {
   return (
     <S.CardsItem>
       <S.Card>
         <S.CardGroup>
           <S.CardTheme $themeType={theme}>
-            <p>{category}</p>
+            <p>{topic}</p>
           </S.CardTheme>
           <Link to={`/card/${id}`}>
             <S.CardButton>
@@ -50,7 +50,13 @@ const Card = ({ id, theme, title, category, date }) => {
                 </clipPath>
               </defs>
             </svg>
-            <p>{date}</p>
+            <p>
+              {new Date(date).toLocaleDateString("ru-RU", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "2-digit",
+              })}
+            </p>
           </S.CardDate>
         </S.CardContent>
       </S.Card>

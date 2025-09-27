@@ -23,11 +23,11 @@ export const HeaderLogo = styled.div`
     width: 85px;
   }
 
-  &._dark {
+  &.dark {
     display: none;
   }
 
-  &._light {
+  &.light {
     display: block;
   }
 `;

@@ -11,23 +11,31 @@ import NewCardPage from "../pages/NewCardPage";
 
 function AppRoutes() {
   const [isAuth, setIsAuth] = useState(false);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
+    const savedUser = localStorage.getItem("user");
+    const savedIsAuth = localStorage.getItem("isAuth");
+
+    if (savedUser) setUser(JSON.parse(savedUser));
+    if (savedIsAuth === "true") setIsAuth(true);
+    
+    setLoading(false);
   }, []);
+
 
   return (
     <Routes>
-      <Route element={<PrivateRoute isAuth={isAuth} />}>
-        <Route path="/" element={<MainPage loading={loading} />} />
-        <Route path="/exit" element={<ExitPage setIsAuth={setIsAuth} />} />
-        <Route path="/new-card" element={<NewCardPage />} />
-        <Route path="/card/:id" element={<CardPage />} />
+      <Route element={<PrivateRoute isAuth={isAuth} loading={loading} />}>
+        <Route path="/" element={<MainPage user={user}/>}>
+          <Route path="card/:id" element={<CardPage />} />
+          <Route path="new-card" element={<NewCardPage />} />
+          <Route path="exit" element={<ExitPage setIsAuth={setIsAuth}/>} />
+        </Route>
       </Route>
 
-      <Route path="/login" element={<LoginPage setIsAuth={setIsAuth} />} />
+      <Route path="/login" element={<LoginPage setIsAuth={setIsAuth} setUser={setUser} />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
