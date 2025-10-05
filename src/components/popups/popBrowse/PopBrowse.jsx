@@ -94,6 +94,10 @@ export const PopBrowseСomponent = () => {
 
   //редактирование
   const handleSave = async () => {
+    if (!card.description.trim()) {
+      alert("Введите описание задачи");
+      return;
+    }
     try {
       setSaving(true); // включаем состояние сохранения
       const token = localStorage.getItem("authToken");
@@ -156,6 +160,7 @@ export const PopBrowseСomponent = () => {
   const handleClose = () => {
     if (isEditing) {
       setIsEditing(false);
+      navigate("/");
     } else {
       navigate("/");
     }
@@ -250,7 +255,11 @@ export const PopBrowseСomponent = () => {
                     id="textArea01"
                     readOnly={!isEditing} // заблокировано в режиме просмотра
                     placeholder="Введите описание задачи..."
-                    value={card.description || "Описание отсутствует"}
+                    value={
+                      isEditing 
+                        ? card.description 
+                        : (card.description && card.description.trim() ? card.description : "Описание отсутствует")
+                    }
                     onChange={(e) =>
                       isEditing &&
                       setCard({ ...card, description: e.target.value })

@@ -102,3 +102,15 @@ export const Loader = styled.div`
   gap: 15px;
 `;
 
+export const NoTasks = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+color: #94A6BE;
+font-size: 24px;
+font-style: italic;
+text-align: center;
+width: 100%;
+min-height: 60vh; 
+padding: 40px 0;
+`;
