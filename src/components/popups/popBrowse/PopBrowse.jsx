@@ -25,6 +25,8 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchTask, deleteTask, updateTask } from "../../../services/api";
 import { TasksContext } from "../../../context/TasksContext";
+import { toast } from 'react-toastify';
+
 
 export const PopBrowseСomponent = () => {
   const navigate = useNavigate();
@@ -95,7 +97,7 @@ export const PopBrowseСomponent = () => {
   //редактирование
   const handleSave = async () => {
     if (!card.description.trim()) {
-      alert("Введите описание задачи");
+      toast.error("Введите описание задачи");
       return;
     }
     try {
@@ -122,6 +124,7 @@ export const PopBrowseСomponent = () => {
 
       if (updatedTask) {
         updateTaskInContext(updatedTask);
+        toast.success("Задача успешно обновлена!");
       } else {
         // если не нашли - обновляем весь список
         refreshTasks();
@@ -131,7 +134,7 @@ export const PopBrowseСomponent = () => {
       navigate(-1);
     } catch (err) {
       console.error("Ошибка сохранения:", err);
-      alert("Не удалось сохранить изменения");
+      toast.error(err.message || "Не удалось сохранить изменения");
     } finally {
       setSaving(false); // выключпаем состояние сохранения
     }
@@ -144,10 +147,11 @@ export const PopBrowseСomponent = () => {
         const token = localStorage.getItem("authToken");
         await deleteTask({ token, taskId: id });
         removeTask(id);
+        toast.success("Задача успешно удалена!"); 
         navigate("/"); //на главную после удаления
       } catch (err) {
         console.error("Ошибка удаления задачи:", err);
-        alert("Не удалось удалить задачу");
+        toast.error(err.message || "Не удалось удалить задачу"); 
       }
     }
   };
