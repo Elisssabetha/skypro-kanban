@@ -74,5 +74,5 @@ npm install
 ```
 3. Запустите проект:
 ```bash
-npm start
+npm run dev
 ```
