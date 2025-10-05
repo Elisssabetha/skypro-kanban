@@ -3,8 +3,8 @@ import PopExitComponent from "../components/popups/popExit/PopExit";
 // import Header from "../components/header/Header";
 // import MainComponent from "../components/main/Main";
 // import { GlobalStyles } from "../components/GlobalStyles.styled";
-const ExitPage = ({ setIsAuth }) => {
-  return <PopExitComponent setIsAuth={setIsAuth}/>; 
+const ExitPage = () => {
+  return <PopExitComponent/>; 
 };
 
 export default ExitPage;

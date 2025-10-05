@@ -1,16 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { MainContent } from "./main/Main.styled";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
-function PrivateRoute({ isAuth, loading }) {
-
-  if (loading) {
-    return (
-      <MainContent className="loading">
-        <p>Загрузка...</p>
-      </MainContent>
-    );
-  }
-  return isAuth ? <Outlet /> : <Navigate to="/login" />;
+function PrivateRoute() {
+  const { user } = useContext(AuthContext);
+  return user ? <Outlet /> : <Navigate to="/login" />;
 }
 
 export default PrivateRoute;

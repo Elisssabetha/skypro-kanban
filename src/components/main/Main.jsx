@@ -1,12 +1,11 @@
 import { useContext } from "react";
 import Column from "../column/Column";
 import { Container } from "../Shared.styled";
-import { Main, MainBlock, MainContent } from "./Main.styled";
+import { Main, MainBlock, MainContent, Loader, LoadingSpinner, LoadingText } from "./Main.styled";
 import { TasksContext } from "../../context/TasksContext";
 
-const MainComponent = ({ loading }) => {
-
-  const { tasks, error, loadTasks } = useContext(TasksContext);
+const MainComponent = () => {
+  const { tasks, isLoading, error, loadTasks } = useContext(TasksContext);
 
   const statuses = [
     "Без статуса",
@@ -17,13 +16,16 @@ const MainComponent = ({ loading }) => {
   ];
 
   // отображение пока загружается
-  if (loading) {
+  if (isLoading) {
     return (
       <Main>
         <Container>
           <MainBlock>
             <MainContent className="loading">
-              <p>Данные загружаются...</p>
+              <Loader>
+                <LoadingSpinner />
+                <LoadingText>Загрузка задач</LoadingText>
+              </Loader>
             </MainContent>
           </MainBlock>
         </Container>

@@ -4,11 +4,11 @@ import { ContainerSign, Modal, ModalBlock, ModalInput, ModalForm,ModalFormGroup,
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../../services/auth";
 import { validateUserData } from "../../../services/utils/authUtils";
-import { TasksContext } from "../../../context/TasksContext";
+import { AuthContext } from "../../../context/AuthContext";
 
-  const SignIn = ({setIsAuth, setUser}) => {
+  const SignIn = () => {
     const navigate = useNavigate();
-    const { refreshTasks } = useContext(TasksContext);
+    const { login: authLogin } = useContext(AuthContext);
 
     // состояние данных формы 
     const [formData, setFormData] = useState({
@@ -66,18 +66,7 @@ import { TasksContext } from "../../../context/TasksContext";
         const authData = await login(formData);
         console.log('Успешный вход:', authData);
 
-
-        localStorage.setItem('authToken', authData.user.token);
-        localStorage.setItem('user', JSON.stringify(authData.user));
-        localStorage.setItem('isAuth', 'true');
-
-        await new Promise(resolve => setTimeout(resolve, 50));
-        if (refreshTasks) {
-          await refreshTasks();
-        }
-
-        setUser(authData.user);
-        setIsAuth(true); 
+        authLogin(authData); 
         navigate("/"); // Переходим на главную страницу
         
       } catch (error) {

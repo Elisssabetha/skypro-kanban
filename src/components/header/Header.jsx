@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import * as S from "./Header.styled";
 import { Container } from "../Shared.styled";
 import { Link } from "react-router-dom";
-const Header = ({ user }) => {
+import { AuthContext } from "../../context/AuthContext";
 
+const Header = () => {
+
+  const { user } = useContext(AuthContext);
   const [isUserPopupVisible, setUserPopupVisible] = useState(false);
   const toggleUserPopup = (e) => {
     e.preventDefault(e);
