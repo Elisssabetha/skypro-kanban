@@ -1,12 +1,78 @@
-# React + Vite
+# Kanban Board Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React-приложение для управления задачами в формате Kanban доски.
 
-Currently, two official plugins are available:
+## 🚀 Основные функции
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🔐 Авторизация и регистрация
+- Регистрация новых пользователей
+- Авторизация существующих пользователей
+- Защищенные маршруты для неавторизованных пользователей
+- **Валидация полей при регистрации и входе:**
+  - Проверка обязательных полей 
+  - Защита от отправки пустых полей или полей только с пробелами
+  - Обработка ошибок сервера при неверных данных
+  - Понятные сообщения об ошибках для пользователя
 
-## Expanding the ESLint configuration
+### 📋 Управление задачами
+- **Просмотр задач** - задачи распределены по колонкам статусов
+- **Создание задач** - с указанием названия, описания, даты и категории
+- **Редактирование задач** - изменение описания, статуса и даты
+- **Удаление задач** - с подтверждением действия
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+### 🎯 Статусы задач
+- Без статуса
+- Нужно сделать
+- В работе
+- Тестирование
+- Готово
+
+### 🏷️ Категории задач
+- Web Design (оранжевая)
+- Research (зеленая) 
+- Copywriting (фиолетовая)
+
+## ✨ Дополнительные фичи
+
+### Валидация форм
+- Проверка обязательных полей при создании и редактировании задач
+- Защита от отправки пустых полей или полей только с пробелами
+- Валидация всех обязательных полей (название, описание, дата, категория)
+
+### Обработка ошибок
+- Понятные сообщения об ошибках для пользователя
+- Обработка сетевых ошибок и ошибок сервера
+- Единая система обработки ошибок API
+
+### Отображение
+- Индикаторы загрузки с анимацией
+- Состояние "задач нет" при пустой доске
+- Стилизованная страница 404 с ссылкой на главную
+
+### Уведомления
+- toast-уведомления с помощью React-Toastify
+
+## 🛠 Стек
+
+- **React** - фреймворк для построения пользовательского интерфейса
+- **Styled Components** - для стилизации компонентов
+- **React Router** - для навигации между страницами
+- **Axios** - для HTTP-запросов к API
+- **React Toastify** - для красивого отображения уведомлений
+- **Context API** - для управления состоянием приложения
+
+## 🚀 Запуск проекта
+
+1. Клонируйте репозиторий:
+```bash
+git clone https://github.com/Elisssabetha/skypro-kanban.git
+```
+2. Установите зависимости:
+```bash
+npm install
+```
+3. Запустите проект:
+```bash
+npm run dev
+```

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const PopBrowse = styled.div`
-  /* display: none; */
   width: 100%;
   height: 100%;
   min-width: 375px;
@@ -312,4 +311,11 @@ export const ThemeDown = styled.div`
   @media screen and (max-width: 495px) {
     display: block;
   }
+`;
+
+export const PopBrowseLoading = styled.p`
+  color: #94A6BE;
+  font-size: 16px;
+  font-weight: 500;
+
 `;

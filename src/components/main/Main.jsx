@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import Column from "../column/Column";
 import { Container } from "../Shared.styled";
-import { Main, MainBlock, MainContent, Loader, LoadingSpinner, LoadingText } from "./Main.styled";
+import { Main, MainBlock, MainContent, Loader, LoadingSpinner, LoadingText, NoTasks} from "./Main.styled";
 import { TasksContext } from "../../context/TasksContext";
 
 const MainComponent = () => {
@@ -50,18 +50,25 @@ const MainComponent = () => {
     );
   }
 
+  const hasTasks = tasks && tasks.length > 0;
+
+
   return (
     <Main>
       <Container>
         <MainBlock>
           <MainContent>
-            {statuses.map((status) => (
-              <Column
-                key={status}
-                title={status}
-                cards={tasks.filter((task) => task.status === status)}
-              />
-            ))}
+            {hasTasks ? (
+              statuses.map((status) => (
+                <Column
+                  key={status}
+                  title={status}
+                  cards={tasks.filter((task) => task.status === status)}
+                />
+              ))
+            ) : (
+              <NoTasks>Задач пока нет :(</NoTasks>
+            )}
           </MainContent>
         </MainBlock>
       </Container>

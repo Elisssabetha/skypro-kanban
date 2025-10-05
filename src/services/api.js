@@ -1,6 +1,34 @@
 import axios from 'axios'
 
 const API_URL = 'https://wedev-api.sky.pro/api/kanban'
+
+// обработка ошибок
+const handleApiError = (error, defaultMessage) => {
+   if (error.code === 'NETWORK_ERROR' || error.message === 'Network Error') {
+     throw new Error('Проблемы с сетью. Проверьте подключение к интернету');
+   }
+   
+   if (error.response?.status === 401) {
+     throw new Error('Неавторизованный доступ. Пожалуйста, войдите снова');
+   }
+   
+   if (error.response?.status === 404) {
+     throw new Error('Задача не найдена');
+   }
+   
+   if (error.response?.status === 500) {
+     throw new Error('Ошибка сервера. Попробуйте позже');
+   }
+   
+   const errorMessage = error.response?.data?.message || 
+                       error.response?.data?.error ||
+                       error.message ||
+                       defaultMessage;
+   
+   throw new Error(errorMessage);
+ };
+
+
 // получение задач
 export async function fetchTasks({token}) {
    try {
@@ -12,12 +40,9 @@ export async function fetchTasks({token}) {
       })
       return response.data
    } catch (error) {
-      const errorMessage = error.response?.data?.message || 
-                          error.response?.data?.error ||
-                          error.message ||
-                          'Ошибка при получении задач';
+      handleApiError(error, 'Ошибка при получении задач')
       console.error("Детали ошибки от сервера:", error.response?.data);
-      throw new Error(errorMessage);
+      
    }
 }
 
@@ -31,7 +56,7 @@ export async function fetchTask({ token, taskId }) {
       })
       return response.data
    } catch (error) {
-      throw new Error(error.response?.data?.error || 'Ошибка при получении задачи');
+      handleApiError(error, 'Ошибка при получении задачи')
    }
 }
 
@@ -46,7 +71,7 @@ export async function createTask({ token, taskData }) {
        });
        return response.data;
    } catch (error) {
-       throw new Error(error.response?.data?.error || 'Ошибка при создании задачи');
+      handleApiError(error, 'Ошибка при создании задачи');
    }
 }
 
@@ -61,7 +86,7 @@ export async function updateTask({ token, taskId, taskData }) {
        });
        return response.data;
    } catch (error) {
-       throw new Error(error.response?.data?.error || 'Ошибка при обновлении задачи');
+      handleApiError(error, 'Ошибка при обновлении задачи');
    }
 }
 
@@ -75,6 +100,6 @@ export async function deleteTask({ token, taskId }) {
        });
        return response.data;
    } catch (error) {
-       throw new Error(error.response?.data?.error || 'Ошибка при удалении задачи');
+      handleApiError(error, 'Ошибка при удалении задачи');
    }
 }

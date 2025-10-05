@@ -20,10 +20,13 @@ import {
   PopBrowseButtonGroup,
   ButtonGroup,
   PopBrowseButton,
+  PopBrowseLoading
 } from "./popBrowse.styled";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchTask, deleteTask, updateTask } from "../../../services/api";
 import { TasksContext } from "../../../context/TasksContext";
+import { toast } from 'react-toastify';
+
 
 export const PopBrowseСomponent = () => {
   const navigate = useNavigate();
@@ -93,6 +96,10 @@ export const PopBrowseСomponent = () => {
 
   //редактирование
   const handleSave = async () => {
+    if (!card.description.trim()) {
+      toast.error("Введите описание задачи");
+      return;
+    }
     try {
       setSaving(true); // включаем состояние сохранения
       const token = localStorage.getItem("authToken");
@@ -117,6 +124,7 @@ export const PopBrowseСomponent = () => {
 
       if (updatedTask) {
         updateTaskInContext(updatedTask);
+        toast.success("Задача успешно обновлена!");
       } else {
         // если не нашли - обновляем весь список
         refreshTasks();
@@ -126,7 +134,7 @@ export const PopBrowseСomponent = () => {
       navigate(-1);
     } catch (err) {
       console.error("Ошибка сохранения:", err);
-      alert("Не удалось сохранить изменения");
+      toast.error(err.message || "Не удалось сохранить изменения");
     } finally {
       setSaving(false); // выключпаем состояние сохранения
     }
@@ -139,10 +147,11 @@ export const PopBrowseСomponent = () => {
         const token = localStorage.getItem("authToken");
         await deleteTask({ token, taskId: id });
         removeTask(id);
+        toast.success("Задача успешно удалена!"); 
         navigate("/"); //на главную после удаления
       } catch (err) {
         console.error("Ошибка удаления задачи:", err);
-        alert("Не удалось удалить задачу");
+        toast.error(err.message || "Не удалось удалить задачу"); 
       }
     }
   };
@@ -155,6 +164,7 @@ export const PopBrowseСomponent = () => {
   const handleClose = () => {
     if (isEditing) {
       setIsEditing(false);
+      navigate("/");
     } else {
       navigate("/");
     }
@@ -169,18 +179,17 @@ export const PopBrowseСomponent = () => {
   };
 
   if (loading) {
-    return null;
-    // return (
-    //   <PopBrowse>
-    //     <PopBrowseContainer>
-    //       <PopBrowseBlock>
-    //         <PopBrowseContent>
-    //           <p>Загрузка карточки...</p>
-    //         </PopBrowseContent>
-    //       </PopBrowseBlock>
-    //     </PopBrowseContainer>
-    //   </PopBrowse>
-    // );
+    return (
+      <PopBrowse>
+        <PopBrowseContainer>
+          <PopBrowseBlock>
+            <PopBrowseContent>
+              <PopBrowseLoading>Загрузка карточки...</PopBrowseLoading>
+            </PopBrowseContent>
+          </PopBrowseBlock>
+        </PopBrowseContainer>
+      </PopBrowse>
+    );
   }
 
   if (error || !card) {
@@ -250,7 +259,11 @@ export const PopBrowseСomponent = () => {
                     id="textArea01"
                     readOnly={!isEditing} // заблокировано в режиме просмотра
                     placeholder="Введите описание задачи..."
-                    value={card.description || "Описание отсутствует"}
+                    value={
+                      isEditing 
+                        ? card.description 
+                        : (card.description && card.description.trim() ? card.description : "Описание отсутствует")
+                    }
                     onChange={(e) =>
                       isEditing &&
                       setCard({ ...card, description: e.target.value })

@@ -76,8 +76,20 @@ const PopNewCardComponent = () => {
       return;
     }
 
+    if (!formData.description.trim()) {
+      setError("Введите описание задачи");
+      setLoading(false);
+      return;
+    }
+
     if (!formData.topic) {
       setError("Выберите категорию");
+      setLoading(false);
+      return;
+    }
+
+    if (!selectedDate) {
+      setError("Выберите дату завершения");
       setLoading(false);
       return;
     }
@@ -210,7 +222,7 @@ const PopNewCardComponent = () => {
             <FormNewCreate
               type="submit"
               form="formNewCard"
-              disabled={loading || !formData.topic}
+              disabled={loading}
             >
               {loading ? "Создание..." : "Создать задачу"}
             </FormNewCreate>

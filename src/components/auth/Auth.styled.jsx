@@ -120,37 +120,6 @@ const BaseInput = ({
 
 export const ModalInput = BaseInput
 
-// export const ModalInput = styled.input`
-//   width: 100%;
-//   min-width: 100%;
-//   border-radius: 8px;
-//   border: 0.7px solid rgba(148, 166, 190, 0.4);
-//   outline: none;
-//   padding: 10px 8px;
-
-//   &::-moz-placeholder {
-//     font-family: "Roboto", sans-serif;
-//     font-weight: 400;
-//     font-size: 14px;
-//     line-height: 21px;
-//     letter-spacing: -0.28px;
-//     color: #94a6be;
-//   }
-
-//   &::placeholder {
-//     font-family: "Roboto", sans-serif;
-//     font-weight: 400;
-//     font-size: 14px;
-//     line-height: 21px;
-//     letter-spacing: -0.28px;
-//     color: #94a6be;
-//   }
-
-//   &.error {
-//     border: 0.7px solid #F84D4D !important;
-//   }
-// `;
-
 export const ModalButton = styled.button`
   width: 100%;
   height: 30px;
@@ -219,8 +188,6 @@ export const ErrorMessage = styled.div`
   color: #e74c3c;
   font-size: 12px;
   text-align: center;
-  /* margin-top: 5px;
-  margin-bottom: 10px; */
 
 `;
 

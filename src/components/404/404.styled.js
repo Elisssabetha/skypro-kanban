@@ -6,6 +6,7 @@ export const Container404 = styled.div`
   align-items: center;
   height: 100vh;
   flex-direction: column;
+  background-color: #eaeef6;
 `;
 
 export const Title404 = styled.h1`

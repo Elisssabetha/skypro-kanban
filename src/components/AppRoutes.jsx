@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router-dom";
-import { useState, useEffect } from "react";
 import MainPage from "../pages/MainPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import LoginPage from "../pages/LoginPage";
