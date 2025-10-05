@@ -20,6 +20,7 @@ import {
   PopBrowseButtonGroup,
   ButtonGroup,
   PopBrowseButton,
+  PopBrowseLoading
 } from "./popBrowse.styled";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchTask, deleteTask, updateTask } from "../../../services/api";
@@ -169,18 +170,17 @@ export const PopBrowseСomponent = () => {
   };
 
   if (loading) {
-    return null;
-    // return (
-    //   <PopBrowse>
-    //     <PopBrowseContainer>
-    //       <PopBrowseBlock>
-    //         <PopBrowseContent>
-    //           <p>Загрузка карточки...</p>
-    //         </PopBrowseContent>
-    //       </PopBrowseBlock>
-    //     </PopBrowseContainer>
-    //   </PopBrowse>
-    // );
+    return (
+      <PopBrowse>
+        <PopBrowseContainer>
+          <PopBrowseBlock>
+            <PopBrowseContent>
+              <PopBrowseLoading>Загрузка карточки...</PopBrowseLoading>
+            </PopBrowseContent>
+          </PopBrowseBlock>
+        </PopBrowseContainer>
+      </PopBrowse>
+    );
   }
 
   if (error || !card) {

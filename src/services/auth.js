@@ -1,5 +1,4 @@
 import axios from "axios";
-import { storage } from "./utils/storage";
 
 const AUTH_URL = "https://wedev-api.sky.pro/api/user";
 
@@ -50,12 +49,3 @@ export async function login(userData) {
     }
   }
 }
-
-// выход
-// export function logout(setIsAuth) {
-//   storage.clearAuthData();
-//   localStorage.removeItem("isAuth");
-//   localStorage.removeItem("authToken");
-//   localStorage.removeItem("user");
-//   setIsAuth(false);
-// }

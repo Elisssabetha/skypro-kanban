@@ -160,10 +160,6 @@ export const CalendarCell = styled.div`
       background-color: ${props => props.$editable ? '#eaeef6' : 'transparent'};
     }
 
-    /* &._weekend {
-      color: #ff6d00;
-    } */
-
     &._selected {
       font-weight: 700;
       background-color: #94a6be;
